@@ -1,5 +1,13 @@
 import streamlit as st
-import sounddevice as sd
+import os
+
+IS_CLOUD = os.environ.get("STREAMLIT_SERVER") == "true"
+
+if not IS_CLOUD:
+    import sounddevice as sd
+    # local recording logic
+else:
+    st.info("Recording is disabled in cloud mode. Please upload a file.")
 import soundfile as sf
 from pydub import AudioSegment
 import librosa
@@ -8,7 +16,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from sklearn.preprocessing import LabelEncoder
-import os
 import time
 import base64
 st.markdown("""
@@ -464,3 +471,4 @@ elif option == "📁 Upload File":
                 classify_audio(mfcc)
 
                 
+
